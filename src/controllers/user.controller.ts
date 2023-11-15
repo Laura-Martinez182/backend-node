@@ -4,7 +4,6 @@ import { UserInput, UserDocument } from '../models/user.model';
 import bcrypt from 'bcrypt';
 import groupService from '../services/group.service';
 import { GroupDocument, GroupInput } from '../models/group.model';
-import { group } from 'console';
 
 class UserController {
     public async create(req: Request, res: Response): Promise<Response> {
@@ -173,7 +172,7 @@ class UserController {
             return res.status(500).json(error);
         }
     }
-/*
+
     public async login(req: Request, res: Response) {
         try {
             const user: UserDocument | null = await userService.findByEmail(req.body.email);
@@ -194,7 +193,6 @@ class UserController {
             res.status(500).json(error);
         }
     }
-*/
 }
 
 export default new UserController();
