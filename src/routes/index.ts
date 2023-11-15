@@ -13,6 +13,8 @@ const routes = (app: Express) => {
   app.put("/groups/:id", groupController.update);
   app.delete("/groups/:id", groupController.delete);
 
+  app.patch("/users/associate-to-group",userController.associateToGroup)
+
 //  app.post("/login", userController.login);
 };
 

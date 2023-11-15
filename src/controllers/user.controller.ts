@@ -2,6 +2,8 @@ import { Request, Response } from 'express';
 import userService from '../services/user.service';
 import { UserInput, UserDocument } from '../models/user.model';
 import bcrypt from 'bcrypt';
+import groupService from '../services/group.service';
+import { GroupDocument, GroupInput } from '../models/group.model';
 
 class UserController {
     public async create(req: Request, res: Response): Promise<Response> {
@@ -66,6 +68,41 @@ class UserController {
             res.status(500).json(error);
         }
 
+    }
+
+    public async associateToGroup(req: Request, res: Response): Promise<Response>{
+        try{
+            const groupExists : GroupDocument | null = await groupService.findById(req.body.groupId)
+            const userExists : UserDocument | null = await userService.findById(req.body.userId)
+
+            if(!groupExists){
+                return res.status(404).json({message:"Group with given id not found"})
+            }
+
+            if(!userExists){
+                return res.status(404).json({message:"User with given id not found"})
+            }
+
+            const userInput : UserInput = userExists.$clone()
+            userInput.groups.push(req.body.groupId)
+            const updateUser : UserDocument | null = await userService.update(userExists,userInput)
+            
+            try{
+                const groupInput : GroupInput = groupExists.$clone()
+                groupInput.users.push(req.body.userId)
+                const updateGroup : GroupDocument | null = await groupService.update(groupExists, groupInput)
+
+                return res.status(200).json({user:updateUser,group:updateGroup})
+            }
+            catch(error){
+                userService.update(userExists,userExists)//reverts user in case group update fails
+                return res.status(500).json(error);
+            }
+        }
+        catch(error){
+            return res.status(500).json(error);
+        }
+        
     }
 /*
     public async login(req: Request, res: Response) {
