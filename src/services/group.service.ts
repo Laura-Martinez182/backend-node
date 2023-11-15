@@ -69,6 +69,7 @@ class GroupService {
             throw error;
         }
     }
+    
 /*
     public async generateToken(user: UserDocument): Promise<String> {
         try {

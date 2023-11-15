@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import groupService from '../services/group.service';
 import { GroupInput, GroupDocument } from '../models/group.model';
 import bcrypt from 'bcrypt';
+import userService from '../services/user.service';
 
 class GroupController {
     public async create(req: Request, res: Response): Promise<Response> {
@@ -51,9 +52,9 @@ class GroupController {
 
     public async delete(req: Request, res: Response) {
         try {
-            const user: GroupDocument | null = await groupService.findById(req.params.id);
+            const group: GroupDocument | null = await groupService.findById(req.params.id);
 
-            if (user === null) {
+            if (group === null) {
                 return res.status(404).json({ message: "Group not found" });
             }
             
@@ -65,6 +66,21 @@ class GroupController {
             res.status(500).json(error);
         }
     }
+
+    public async findUsersInSpecificGroup(req: Request, res: Response) {
+        try{
+            const group: GroupDocument | null = await groupService.findById(req.params.id);
+            if (!group) {
+                return res.status(404).json({ message: "Group not found" });
+            }
+            const users = await userService.findUsersInGroup(group.users);
+            return res.status(200).json(users);
+        }
+        catch (error) {
+            res.status(500).json(error);
+        }
+    }
+    
 }
 
 export default new GroupController();
