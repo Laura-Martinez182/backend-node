@@ -7,15 +7,7 @@ import { GroupDocument, GroupInput } from '../models/group.model';
 
 class UserController {
     public async create(req: Request, res: Response): Promise<Response> {
-        try {
-
-            const loggeduser = req.body.loggeduser
-            const loggeduserDoc : UserDocument | null = await userService.findById(loggeduser.user_id)
-
-            if(loggeduserDoc && loggeduserDoc.role != "superadmin"){
-                return res.status(401).json({ message: "Not authorized" });
-            }      
-
+        try { 
             const userExists: UserDocument | null = await userService.findByEmail(req.body.email);
             if (userExists) {
                 return res.status(400).json({ message: "User already exists" });

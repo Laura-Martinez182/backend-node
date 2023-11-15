@@ -2,9 +2,10 @@ import { Express } from "express";
 import userController from "../controllers/user.controller";
 import groupController from "../controllers/group.controller";
 import auth from "../middleware/auth";
+import auth_superadmin from "../middleware/auth.superadmin";
 
 const routes = (app: Express) => {
-  app.post("/users", auth, userController.create);
+  app.post("/users", auth_superadmin, userController.create);
   app.get("/users/:id", auth, userController.findById);
   app.put("/users/:id", auth, userController.update);
   app.delete("/users/:id", auth, userController.delete);
