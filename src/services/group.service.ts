@@ -32,8 +32,17 @@ class GroupService {
 
     public async findById(id: string): Promise<GroupDocument | null> {
         try {
-            const user = await GroupModel.findById(id);
-            return user;
+            const group = await GroupModel.findById(id);
+            return group;
+        } catch (error) {
+            throw error
+        }
+    }
+
+    public async findManyByIds(ids: string[]): Promise<GroupDocument[] | null> {
+        try {
+            const groups = await GroupModel.find({'_id':{$in:ids}});
+            return groups;
         } catch (error) {
             throw error
         }

@@ -1,10 +1,9 @@
 import { GroupDocument } from "../models/group.model";
 import UserModel, { UserInput, UserDocument } from "../models/user.model";
+import groupService from "./group.service";
 //import jwt from "jsonwebtoken";
 
 class UserService {
-
-
 
     public async create(userInput: UserInput): Promise<UserDocument> {
         try {
@@ -82,6 +81,7 @@ class UserService {
             throw error
         }
     }
+    
     /*
 
     public async generateToken(user: UserDocument): Promise<String> {

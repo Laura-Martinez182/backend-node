@@ -16,6 +16,8 @@ const routes = (app: Express) => {
   app.patch("/users/associate-to-group",userController.associateToGroup)
   app.patch("/users/remove-from-group",userController.removeFromGroup)
 
+  app.get("/users/:id/groups",userController.getUserGroups)
+
 //  app.post("/login", userController.login);
 };
 
