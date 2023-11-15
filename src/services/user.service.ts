@@ -1,7 +1,11 @@
+import { GroupDocument } from "../models/group.model";
 import UserModel, { UserInput, UserDocument } from "../models/user.model";
 //import jwt from "jsonwebtoken";
 
 class UserService {
+
+
+
     public async create(userInput: UserInput): Promise<UserDocument> {
         try {
             const user = await UserModel.create(userInput);
@@ -41,7 +45,6 @@ class UserService {
     }
 
     public async delete(id: string): Promise<UserDocument | null> {
-
         try {
             const userDelete: UserDocument | null = await UserModel.findByIdAndDelete(id);
             return userDelete;
@@ -49,7 +52,38 @@ class UserService {
             throw error;
         }
     }
-/*
+
+    public async associateToGroup(user:UserDocument, group:GroupDocument):Promise<any>{
+        try{
+            user.groups.push(group.id)
+            group.users.push(user.id)
+
+            const updateUser:UserDocument = await user.save()       
+            const updateGroup:GroupDocument = await group.save()               
+
+            return {user:updateUser,group:updateGroup}
+        }
+        catch(error){
+            throw error
+        }
+    }
+
+    public async removeFromGroup(user:UserDocument, group:GroupDocument):Promise<any>{
+        try{
+            group.users.splice(group.users.indexOf(user.id),1)
+            user.groups.splice(user.groups.indexOf(group.id),1)
+
+            const updateUser:UserDocument = await user.save()       
+            const updateGroup:GroupDocument = await group.save()               
+
+            return {user:updateUser,group:updateGroup}
+        }
+        catch(error){
+            throw error
+        }
+    }
+    /*
+
     public async generateToken(user: UserDocument): Promise<String> {
         try {
             const token = await jwt.sign({ user_id: user.id, email: user.email }, process.env.JWT_SECRET || 'secret', { expiresIn: "5m" });

@@ -72,31 +72,82 @@ class UserController {
 
     public async associateToGroup(req: Request, res: Response): Promise<Response>{
         try{
-            const groupExists : GroupDocument | null = await groupService.findById(req.body.groupId)
-            const userExists : UserDocument | null = await userService.findById(req.body.userId)
+            const group : GroupDocument | null = await groupService.findById(req.body.groupId)
+            const user : UserDocument | null = await userService.findById(req.body.userId)
 
-            if(!groupExists){
+            if(!group){
                 return res.status(404).json({message:"Group with given id not found"})
             }
 
-            if(!userExists){
+            if(!user){
                 return res.status(404).json({message:"User with given id not found"})
             }
 
-            const userInput : UserInput = userExists.$clone()
-            userInput.groups.push(req.body.groupId)
-            const updateUser : UserDocument | null = await userService.update(userExists,userInput)
-            
-            try{
-                const groupInput : GroupInput = groupExists.$clone()
-                groupInput.users.push(req.body.userId)
-                const updateGroup : GroupDocument | null = await groupService.update(groupExists, groupInput)
+            const groupInUser : number = group.users.indexOf(user.id)
+            const userInGroup : number = user.groups.indexOf(group.id)
 
-                return res.status(200).json({user:updateUser,group:updateGroup})
+            if(groupInUser != -1 && userInGroup != - 1){
+                return res.status(400).json({message:"User is already associated to given group"})
+            }
+
+            if(groupInUser != -1 || userInGroup != -1){
+                return res.status(409).json({message:"Inconsistent data, fix it first"})
+            }
+            
+            const groupPre : GroupDocument= group.$clone()
+            const userPre : UserDocument = user.$clone()
+
+            try{
+                userService.associateToGroup(user, group)           
+                return res.status(200).json({user:user,group:group})
             }
             catch(error){
-                userService.update(userExists,userExists)//reverts user in case group update fails
-                return res.status(500).json(error);
+                userService.update(userPre,userPre)//reverts user and group in case group update fails
+                groupService.update(groupPre,groupPre)
+                throw error
+            }
+        }
+        catch(error){
+            return res.status(500).json(error);
+        }
+        
+    }
+
+    public async removeFromGroup(req: Request, res: Response): Promise<Response>{
+        try{
+            const group : GroupDocument | null = await groupService.findById(req.body.groupId)
+            const user : UserDocument | null = await userService.findById(req.body.userId)
+
+            if(!group){
+                return res.status(404).json({message:"Group with given id not found"})
+            }
+
+            if(!user){
+                return res.status(404).json({message:"User with given id not found"})
+            }
+
+            const groupInUser : number = group.users.indexOf(user.id)
+            const userInGroup : number = user.groups.indexOf(group.id)
+
+            if(groupInUser == -1 && userInGroup == -1){
+                return res.status(400).json({message:"User is not associated to given group"})
+            }
+
+            if(groupInUser == -1 || userInGroup == -1){
+                return res.status(409).json({message:"Inconsistent data, fix it first"})
+            }
+
+            const groupPre : GroupDocument= group.$clone()
+            const userPre : UserDocument = user.$clone()        
+
+            try{
+                userService.removeFromGroup(user,group)       
+                return res.status(200).json({user:user,group:group})
+            }
+            catch(error){
+                userService.update(userPre,userPre)//reverts user and group in case update fails
+                groupService.update(groupPre,groupPre)
+                throw error
             }
         }
         catch(error){
