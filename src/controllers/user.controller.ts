@@ -20,15 +20,6 @@ class UserController {
         }
     }
 
-    public async findAll(req: Request, res: Response): Promise<Response> {
-        try {
-            const users: UserDocument[] = await userService.findAll();
-            return res.status(200).json(users);
-        } catch (error) {
-            return res.status(500).json(error);
-        }
-    }
-
     public async findById(req: Request, res: Response) {
         try {
             const user: UserDocument | null = await userService.findById(req.params.id);
@@ -76,7 +67,7 @@ class UserController {
         }
 
     }
-
+/*
     public async login(req: Request, res: Response) {
         try {
             const user: UserDocument | null = await userService.findByEmail(req.body.email);
@@ -97,7 +88,7 @@ class UserController {
             res.status(500).json(error);
         }
     }
-
+*/
 }
 
 export default new UserController();

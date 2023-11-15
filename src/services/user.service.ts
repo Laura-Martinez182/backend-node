@@ -1,5 +1,5 @@
 import UserModel, { UserInput, UserDocument } from "../models/user.model";
-import jwt from "jsonwebtoken";
+//import jwt from "jsonwebtoken";
 
 class UserService {
     public async create(userInput: UserInput): Promise<UserDocument> {
@@ -29,15 +29,6 @@ class UserService {
         }
     }
 
-    public async findAll(): Promise<UserDocument[]> {
-        try {
-            const users = await UserModel.find();
-            return users;
-        } catch (error) {
-            throw error;
-        }
-    }
-
     public async update(user: UserDocument, data: UserInput): Promise<UserDocument | null> {
         try {
             const userUpdate: UserDocument | null = await UserModel.findOneAndUpdate({ _id: user.id }, data, { new: true });
@@ -47,9 +38,7 @@ class UserService {
         } catch (error) {
             throw error;
         }
-
     }
-
 
     public async delete(id: string): Promise<UserDocument | null> {
 
@@ -60,7 +49,7 @@ class UserService {
             throw error;
         }
     }
-
+/*
     public async generateToken(user: UserDocument): Promise<String> {
         try {
             const token = await jwt.sign({ user_id: user.id, email: user.email }, process.env.JWT_SECRET || 'secret', { expiresIn: "5m" });
@@ -70,7 +59,7 @@ class UserService {
             throw error;
         }
     }
-
+*/
 }
 
 export default new UserService();
