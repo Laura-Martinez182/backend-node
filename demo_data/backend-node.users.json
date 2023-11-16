@@ -2,7 +2,7 @@
   "_id": {
     "$oid": "6554c8046fc057fd5eb41fe7"
   },
-  "name": "Fido_F",
+  "name": "A user",
   "email": "example@example.com",
   "password": "$2b$10$/q2UwSGKT/9ZZY6Ln3OBne//SudMdgVwZPCsSqGFs.MCsTbYnXrHu",
   "role": "superadmin",
