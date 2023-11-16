@@ -1,0 +1,17 @@
+[{
+  "_id": {
+    "$oid": "6554c8046fc057fd5eb41fe7"
+  },
+  "name": "Fido_F",
+  "email": "example@example.com",
+  "password": "$2b$10$/q2UwSGKT/9ZZY6Ln3OBne//SudMdgVwZPCsSqGFs.MCsTbYnXrHu",
+  "role": "superadmin",
+  "groups": [],
+  "createdAt": {
+    "$date": "2023-11-15T13:30:44.339Z"
+  },
+  "updatedAt": {
+    "$date": "2023-11-15T13:30:44.339Z"
+  },
+  "__v": 0
+}]

@@ -1,0 +1,14 @@
+[{
+  "_id": {
+    "$oid": "65543548ca989b3dadd55f17"
+  },
+  "name": "another group",
+  "users": [],
+  "createdAt": {
+    "$date": "2023-11-15T03:04:40.301Z"
+  },
+  "updatedAt": {
+    "$date": "2023-11-15T12:37:05.472Z"
+  },
+  "__v": 4
+}]
