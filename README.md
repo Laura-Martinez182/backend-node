@@ -7,6 +7,7 @@
    ```
    PORT=8080
    MONGO_URI="cadena de conexión a la base de datos"
+   JWT_SECRET = "your_secret_key"
    ```
 #### Formato de MONGO_URI
    Recuerde que el esquema de conexión SRV URI tiene la siguiente forma:
