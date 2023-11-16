@@ -11,10 +11,6 @@ app.use(express.urlencoded({ extended: true }));
 
 const port: number = parseInt(process.env.PORT || "") || 3000;
 
-app.get("/", (req: Request, res: Response) => {
-  res.status(200).send("Hola Mundo");
-});
-
 routes(app);
 
 db.then(() => {
