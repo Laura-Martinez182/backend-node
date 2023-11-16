@@ -1,5 +1,8 @@
 import  mongoose from "mongoose";
 
+/**
+ * Defines the UserInput that stores user data when user is created or modified
+ */
 export  interface UserInput {
     name: string;
     email: string;
@@ -8,12 +11,18 @@ export  interface UserInput {
     groups: string[];
 }
 
+/**
+ * Extends UserInput and mongoose.Document, for adding meta data stored on Mongo DB
+ */
 export  interface UserDocument extends UserInput, mongoose.Document {
     createdAt: Date;
     updatedAt: Date;
     deleteAt?: Date;
 }
 
+/**
+ * Defines the schema for the User model in Mongoose. 
+ */
 const userSchema = new mongoose.Schema({
         name: {type: String, required: true},
         email: {type: String, required: true, index: true, unique: true},

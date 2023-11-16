@@ -73,7 +73,7 @@ class GroupController {
             if (!group) {
                 return res.status(404).json({ message: "Group not found" });
             }
-            const users = await userService.findUsersInGroup(group.users);
+            const users = await userService.findUsersById(group.users);
             return res.status(200).json(users);
         }
         catch (error) {

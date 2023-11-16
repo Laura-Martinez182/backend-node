@@ -3,6 +3,10 @@ import dotenv from "dotenv";
 import { db } from "./config/connect";
 import routes from "./routes";
 
+/**
+ * This file setups and launches the api using Express JS retrieving the port from environment variable
+ */
+
 dotenv.config();
 const app: Express = express();
 

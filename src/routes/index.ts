@@ -7,6 +7,12 @@ import { schemaValidation } from "../middleware/schemasValidation";
 import { userSchema } from "../schemas/user.schema";
 import { groupSchema } from "../schemas/group.schema";
 
+/**
+ * Defines various routes for user and group operations, along with authentication and
+ * schema validation middleware.
+ * @param {Express} app - The parameter `app` is an instance of the Express application. It is used to
+ * define the routes and handle the HTTP requests and responses.
+ */
 const routes = (app: Express) => {
   app.post("/users", auth_superadmin, schemaValidation(userSchema), userController.create);
   app.get("/users/:id", auth, userController.findById);
